@@ -1,0 +1,18 @@
+import math
+import matplotlib.pyplot as plt
+
+#Proporció áurea
+p = (1+math.sqrt(5))/2
+
+#Número de semillas a graficar
+n = 1000
+x = [0.] * n
+y = [0.] * n
+
+for i in range(n):
+    #Coordenadas polares de semilla i
+    x[i] = math.sqrt(i)*math.cos(2*math.pi*i/p)
+    y[i] = math.sqrt(i)*math.sin(2*math.pi*i/p)
+
+plt.plot(x,y,'.')
+plt.show()
