@@ -1,0 +1,90 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Metales disponibles para graficar
+#Capacidad calorífica por unidad de volumen [J.m-3.K-1]
+#Difusividad Térmica [m2.s-1] para Cu y Fe
+C=('Cu',3.45e7,113e-6)
+H=('Fe',3.5e7,22.8e-6)
+P=('Ag',2.44e7,149e-6)
+O=('Au',2.49e7,127e-6)
+A=('Al',2.42e7,97.5e-6)
+E=('Sn',1.66e7,40e-6)
+M=('Mo',2.57e7,54.3e-6)
+T=('Ti',2.35e7,8.89e-6)
+W=('W',2.58e7,76.1e-6)
+Z=('Zr',1.85e7,17e-6)
+
+lmetales=(C,H,P,O,A,E,M,T,W,Z)
+
+metal1=()
+metal2=()
+metal3=()
+metal4=()
+
+#Selección de los metales por el usuario
+nm=int(input('¿Cuántos metales quieres? (1-4):'))
+print('Metales disponibles: \n 0-Cobre \n 1-Hierro \n 2-Plata \n 3-Oro \n 4-Aluminio \n 5-Estaño \n 6-Molibdeno \n 7-Titanio \n 8-Tungsteno \n 9-Zirconio')
+i=1
+while i<nm+1:
+  print('Metal',i)
+  m=int(input('m='))
+  if i==1:
+    metal1=lmetales[m]
+    metales = np.array([metal1],dtype=[('symbol', '|S2'),('cp','f8'),('D','f8')])
+  elif i==2:
+    metal2=lmetales[m]
+    metales = np.array([metal1,metal2],dtype=[('symbol', '|S2'),('cp','f8'),('D','f8')])
+  elif i==3:
+    metal3=lmetales[m]
+    metales = np.array([metal1,metal2,metal3],dtype=[('symbol', '|S2'),('cp','f8'),('D','f8')])
+  elif i==4:
+    metal4=lmetales[m]
+    metales = np.array([metal1,metal2,metal3,metal4],dtype=[('symbol', '|S2'),('cp','f8'),('D','f8')])
+  i=i+1
+
+#Selección del usuario de los tiempos
+tiempo=[]
+for i in range(3):
+  print('Tiempo', i+1)
+  t=float(input('t='))
+  tiempo.append(t)
+tiempo=tuple(tiempo)
+
+#Dar dimensión en el eje x a la barra metálica
+#Consideramos que la barra se extiende de -xlim a xlim [m]
+xlim = 0.05
+nx = 1000
+x = np.linspace(-xlim,xlim,nx)
+
+#Temperatura para t=0
+theta0=300
+#Seccion transversal de la barra en m3, se le añade en x=0 calor(J)
+A = 1.e-4
+H = 1.e3
+
+#Creamos un array de subplots (t1 : m_1 | ... | m_{nm} )
+#                             (t2 : m_1 | ... | m_{nm} )
+#                             (t3 : m_1 | ... | m_{nm} )
+fig,axes = plt.subplots(nrows=3, ncols=nm,figsize=(3.5*nm,8))
+for j,t in enumerate(tiempo):
+  for i,metal in enumerate(metales):
+    symbol,cp,D = metal
+    ax = axes[j,i]
+    # La solución de la Ecuación de Difusión
+    theta = theta0+H/cp/A/np.sqrt(D*t *4*np.pi) * np.exp(-x**2/4/D/t)
+    ax.plot(x*100,theta,'k')
+    ax.set_title('{},$t={}$ s'.format(symbol.decode('utf8'),t))
+    ax.set_xlim(-4,4)
+    ax.set_xlabel('$x\;/\mathrm{cm}$')
+    ax.set_ylabel('$\Theta\;/\mathrm{K}$')
+for j in (0,1,2):
+  ymax = max(axes[j,0].get_ylim()[1],axes[j,1].get_ylim()[1])
+  print(axes[j,0].get_ylim(),axes[j,1].get_ylim())    
+  for i in(0,1):
+    ax = axes[j,i]
+    ax.set_ylim(theta0,ymax)
+    ### Asegurar que sólo existan 3 únicas marcas en eje y
+    ax.set_yticks([theta0,(ymax+theta0)/2,ymax])
+fig.tight_layout()    
+plt.show()   
