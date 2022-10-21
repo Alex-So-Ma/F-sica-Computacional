@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+#Definimos una función que indica el exponente sin y cos
+def f(i):
+  return i+2
+
+#Argumentos de la función
+xmin, xmax = -2. * np.pi, 2. * np.pi
+x = np.linspace(xmin, xmax, 1000)
+
+#Creamos un array de subplots (**2 : sin | cos )
+#                             (**3 : sin | cos )
+#                             (**4 : sin | cos )
+fig,ax = plt.subplots(nrows=3,ncols=2,figsize=(8,11))
+
+
+#Ciclos for, se van haciendo las gráficas por filas, primero sin yluego cos
+for i in range(0,3):
+  for j in range(0,2):
+    if j==0:
+      eje1 = ax[i,j]
+      eje1.plot(x,np.sin(x)**f(i),label='$\sin^{var}(x)$'.format(var=f(i)))
+      eje1.title.set_text('$\sin^{var}(x)$'.format(var=f(i)))
+      eje1.legend(loc='upper right')
+    elif j==1:
+      eje2 = ax[i,j]
+      eje2.plot(x,np.cos(x)**f(i),label='$\cos^{var}(x)$'.format(var=f(i)),color='orange')
+      eje2.title.set_text('$\cos^{var}(x)$'.format(var=f(i)))
+      eje2.legend(loc='upper right')
