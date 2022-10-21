@@ -1,0 +1,21 @@
+import numpy as np
+from math import exp
+
+def exp_p(x):
+  #Los primeros términos del polinomio
+  term = 1
+  sum = 1
+  eps=1e-8
+  n=2
+  
+  while abs(term/sum)>eps:
+    term=term*x/(n-1)
+    sum=sum+term
+    n=n+1
+  return sum
+
+#Error respecto a la exp de math
+e1=abs(exp_p(-20)-exp(-20))/exp(-20)
+e2=abs(exp_p(0.1)-exp(0.1))/exp(0.1)
+e3=abs(exp_p(20)-exp(20))/exp(20)
+print(e1,e2,e3)
