@@ -1,0 +1,27 @@
+def dfactorial(n):
+  if n==0: ##El doble factorial de 0 es 1.
+    return 1
+  elif n%2==0: ##Identifica si n es par.
+    k=n/2
+    df=1
+    m=1
+    while m<=k: ##Calcula el doble factorial de n par.
+      df=df*(2*m)
+      m=m+1
+    return df
+  else: ##Si n no es par, es impar.
+    k=(n+1)/2
+    df=1
+    m=1
+    while m<=k: ##Calcula el doble factorial de n impar.
+      df=df*(2*m-1)
+      m=m+1
+    return df
+def sinm_cosn(n,m):
+  import math
+  if [1%2,m%2]==[0,0]: ##Identifica si n y m son pares.
+    sncm=(dfactorial(m-1)*dfactorial(n-1)*math.pi)/(dfactorial(m+n)*2) ##Calcula la integral.
+    return sncm
+  else: ##Caso en el que n o m no es par.
+    sncm=(dfactorial(m-1)*dfactorial(n-1))/(dfactorial(m+n)) ##Calcula la integral.
+    return sncm    
