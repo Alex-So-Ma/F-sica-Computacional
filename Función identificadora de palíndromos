@@ -1,0 +1,13 @@
+def palap(p):
+  listpa=list(p.lower()) ##Convierte la palabra a minúculas y hace una lista (listpa) con ella.
+  i=-1
+  while i>=-len(listpa): #Revisa si hay espacios y los elimina.
+   if listpa[i]==' ':
+     listpa.remove(listpa[i])
+     i=i+1
+   i=i-1
+  listap=listpa[::-1] ##Define otra lista (listap) que es listpa, pero invertida.
+  if listpa==listap: ##Identifica si las listas son iguales.
+    return p, 'es palíndromo.'
+  else:
+    return p, 'no es palíndromo.'
