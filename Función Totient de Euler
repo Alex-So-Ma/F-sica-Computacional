@@ -1,0 +1,12 @@
+import builtins
+i=100
+while i>0: ##Revisa los números del 1 al 100.
+  pr=0
+  for j in range(1,i): ##Revisa si los números j de 1 a i son pr de i.
+    a=i
+    while j: ##Revisa si el numero j es pr de i (algirtmo MCD).
+      a,j=j,a%j
+    if a==1:
+      pr += 1
+  print(i,'tiene',pr,'primos relativos.')
+  i=i-1
